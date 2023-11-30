@@ -3,30 +3,12 @@ import pandas as pd
 import datetime as dt
 import time
 import os
-current_datetime = dt.datetime.now()
-formatted_datetime = current_datetime.strftime("%Y_%m%d_%H%M%S")
-# 被験者番号
-while True:
-    subject_id = input("2人の被験者番号を連続で入力してください.例(00010002): ")
-    if subject_id.isdigit() and len(subject_id) == 8:
-        # 入力が半角4桁の整数だった場合
-        filename_number = str(subject_id)
-        break
-    else:
-        print("無効な入力です。半角8桁の整数を入力してください。")
 
-while True:
-    ROUND_NUM = input("ラウンド数+2を入力してください")
-    if ROUND_NUM.isdigit():
-        # 入力が半角4桁の整数だった場合
-        ROUND_NUM = int(ROUND_NUM)
-        break
-    else:
-        print("無効な入力です。半角8桁の整数を入力してください。")
+now = dt.now()
+filename_number = now.strftime("prisoner_result_%Y-%m-%d_%H-%M-%S")
 
 df = pd.DataFrame(columns=['session', 'player',
-                  'round', 'cooperate', 'payoff', 'start_time', 'choice_time','time_out_choice'])
-
+                  'round', 'cooperate', 'payoff', 'start_time', 'choice_time', 'time_out_choice'])
 
 
 doc = """
@@ -35,18 +17,18 @@ whether they want to cooperate or defect. Their choices directly determine the
 payoffs.
 """
 
-#環境変数のセッティングをしてください。
-#OTREE_PRODUCTION=1 
-#export OTREE_PRODUCTION
+# 環境変数のセッティングをしてください。
+# OTREE_PRODUCTION=1
+# export OTREE_PRODUCTION
 
 
 class C(BaseConstants):
     NAME_IN_URL = 'prisoner_copy_copy_prc'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = ROUND_NUM
+    NUM_ROUNDS = 22
     ENDOWMENT = cu(100)  # 初期保有
-    #利得は以下を満たすようにしてください。
-    #PAYOFF_A>B>C>D 2A>B+C
+    # 利得は以下を満たすようにしてください。
+    # PAYOFF_A>B>C>D 2A>B+C
     PAYOFF_A = 30  # 利得(D,C)
     PAYOFF_B = 10  # 利得(C,C)
     PAYOFF_C = -10  # 利得(D,D)
@@ -57,18 +39,17 @@ class Subsession(BaseSubsession):
     pass
 
 
-
 class Group(BaseGroup):  # 記録したいものを書く
     cooperate = models.BooleanField()  # 協力or非協力 bool値,T:協力,F:非協力
     payoff = models.IntegerField()  # 獲得した利得
-    
+
 
 class Player(BasePlayer):
-    timeout_happened = models.BooleanField(initial =False)
+    timeout_happened = models.BooleanField(initial=False)
     choice_timestamp = models.FloatField()
     start_timestamp = models.FloatField()
     time_out_choice = models.BooleanField()
-    add_point = models.IntegerField() 
+    add_point = models.IntegerField()
     cooperate = models.BooleanField(
         choices=[[True, 'Option I'], [False, 'Option J']],
         doc="""This player's decision""",
@@ -76,6 +57,8 @@ class Player(BasePlayer):
     )
 
 # FUNCTIONS
+
+
 def set_payoffs(group: Group):
     for p in group.get_players():
         set_payoff(p)
@@ -86,8 +69,8 @@ def other_player(player: Player):
 
 
 def prev_player(player: Player):
-    
-    if player.round_number>1:
+
+    if player.round_number > 1:
         return player.in_round(player.round_number - 1)
 
 
@@ -109,19 +92,18 @@ def set_payoff(player: Player):
     score_matrix = payoff_matrix[(
         player.cooperate, other.cooperate)]  # スコア２人分の配列
 
-    
     if player.time_out_choice and other.time_out_choice:
         if player.round_number == 1 or player.round_number == 3:
             player.payoff = C.ENDOWMENT  # 自分の配列
             player.add_point = 0
-            other.payoff = C.ENDOWMENT # 相手の配列
+            other.payoff = C.ENDOWMENT  # 相手の配列
             other.add_point = 0
         else:
             player.payoff = prev_player(player).payoff
             player.add_point = 0
             other.payoff = prev_player(other).payoff
             other.add_point = 0
-            
+
     elif player.time_out_choice:
         if player.round_number == 1 or player.round_number == 3:
             player.payoff = C.ENDOWMENT  # 自分の配列
@@ -143,21 +125,21 @@ def set_payoff(player: Player):
             player.payoff = prev_player(player).payoff
             player.add_point = 0
             other.payoff = prev_player(other).payoff
-            other.add_point = 0        
+            other.add_point = 0
     else:
         if player.round_number == 1 or player.round_number == 3:
             player.payoff = C.ENDOWMENT+score_matrix[0]  # 自分の配列
             player.add_point = score_matrix[0]
             other.payoff = C.ENDOWMENT+score_matrix[1]  # 相手の配列
             other.add_point = score_matrix[1]
-        else:  
+        else:
             player.payoff = prev_player(player).payoff+score_matrix[0]  # 自分の配列
             player.add_point = score_matrix[0]
             other.payoff = prev_player(other).payoff+score_matrix[1]  # 相手の配列
             other.add_point = score_matrix[1]
-            
+
     df.loc[len(df)] = [player.session.code, player.id_in_subsession,
-                            player.round_number, player.cooperate, player.payoff, player.start_timestamp, player.choice_timestamp,player.time_out_choice]
+                       player.round_number, player.cooperate, player.payoff, player.start_timestamp, player.choice_timestamp, player.time_out_choice]
 
     if (player.round_number == C.NUM_ROUNDS):
         # 奇数行と偶数行を分けます
@@ -195,16 +177,11 @@ def set_payoff(player: Player):
 
         # カラムの順番を変更、不要なカラムを削除
         result = result[new_column_order]
-    
 
         # 結果をCSVファイルとして保存します
-        os.makedirs("output/prisoner_result", exist_ok= True)
+        os.makedirs("output/prisoner_result", exist_ok=True)
         result.to_csv(f'output/prisoner_result/prisoner_result_{filename_number}.csv', encoding='utf-8-sig', index=False)
-    
 
-            
-    
-        
 
 # PAGES
 # participant_wait_page
@@ -212,11 +189,12 @@ class Wait_Page(WaitPage):
     @staticmethod
     def is_displayed(player):
         return player.round_number == 1
-    
-     
+
+
 class Introduction(Page):
     timer_text = "次の画面になるまでお待ちください。"
-    def get_timeout_seconds(player:Player):
+
+    def get_timeout_seconds(player: Player):
         # プレイヤーごとに異なるタイムアウト秒数を計算して返す
         if player.round_number == 1:
             return 3
@@ -235,7 +213,8 @@ class Introduction(Page):
             point_other=point_other,
 
         )
-    def before_next_page(player:Player,timeout_happened):
+
+    def before_next_page(player: Player, timeout_happened):
         player.start_timestamp = time.time()
 
 
@@ -250,17 +229,15 @@ class Decision(Page):
         other = other_player(player)
         point_player = display_score(player)
         point_other = display_score(other)
-        
-        
+
         return dict(
             other=other,
             round_number=player.round_number,
             point_player=point_player,
             point_other=point_other,
-            
-        
+
+
         )
- 
 
     def before_next_page(player: Player, timeout_happened):
         other = other_player(player)
@@ -268,35 +245,34 @@ class Decision(Page):
             player.time_out_choice = False
         else:
             player.time_out_choice = True
-        
+
         # Calculate the remaining time in seconds
         remaining_time = Decision.timeout_seconds - (time.time() - player.start_timestamp)
-        
+
         if remaining_time > 0:
             # Sleep for the remaining time
             time.sleep(remaining_time)
         player.choice_timestamp = time.time()
-    
 
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 
 
-
 class Results(Page):
     timer_text = " 次の画面になるまでお待ちください。"
-    def get_timeout_seconds(player:Player):
+
+    def get_timeout_seconds(player: Player):
         # プレイヤーごとに異なるタイムアウト秒数を計算して返す
         if player.round_number == C.NUM_ROUNDS:
             return 120
         else:
             return 10
-        
-    @staticmethod    
+
+    @staticmethod
     def vars_for_template(player: Player):
-        
-        NUM_ROUNDS=C.NUM_ROUNDS
+
+        NUM_ROUNDS = C.NUM_ROUNDS
         other = other_player(player)
         return dict(
             NUM_ROUNDS=NUM_ROUNDS,
@@ -311,12 +287,10 @@ class Results(Page):
             my_decision=player.field_display('cooperate'),
             opponent_decision=other.field_display('cooperate'),
         )
-    def before_next_page(player: Player,timeout_happened):
+
+    def before_next_page(player: Player, timeout_happened):
         if player.round_number == C.NUM_ROUNDS:
             os._exit(0)
 
 
 page_sequence = [Wait_Page, Introduction, Decision, ResultsWaitPage, Results]
-
-
-    

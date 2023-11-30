@@ -50,4 +50,4 @@ WTForms-SQLAlchemy==0.2
 zipp==3.17.0
 otree
 pandas
-
+psycopg2
