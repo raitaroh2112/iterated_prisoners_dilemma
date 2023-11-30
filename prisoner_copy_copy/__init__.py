@@ -290,7 +290,7 @@ class Results(Page):
 
     def before_next_page(player: Player, timeout_happened):
         if player.round_number == C.NUM_ROUNDS:
-            os._exit(0)
+            pass
 
 
 page_sequence = [Wait_Page, Introduction, Decision, ResultsWaitPage, Results]
