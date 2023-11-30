@@ -1,10 +1,10 @@
 from otree.api import *
 import pandas as pd
-import datetime as dt
+import datetime
 import time
 import os
 
-now = dt.now()
+now = datetime.datetime.now()
 filename_number = now.strftime("prisoner_result_%Y-%m-%d_%H-%M-%S")
 
 df = pd.DataFrame(columns=['session', 'player',
@@ -138,49 +138,49 @@ def set_payoff(player: Player):
             other.payoff = prev_player(other).payoff+score_matrix[1]  # 相手の配列
             other.add_point = score_matrix[1]
 
-    df.loc[len(df)] = [player.session.code, player.id_in_subsession,
-                       player.round_number, player.cooperate, player.payoff, player.start_timestamp, player.choice_timestamp, player.time_out_choice]
+    # df.loc[len(df)] = [player.session.code, player.id_in_subsession,
+    #                    player.round_number, player.cooperate, player.payoff, player.start_timestamp, player.choice_timestamp, player.time_out_choice]
 
-    if (player.round_number == C.NUM_ROUNDS):
-        # 奇数行と偶数行を分けます
-        odd_rows = df[df.index % 2 == 0]
-        even_rows = df[df.index % 2 == 1]
+    # if (player.round_number == C.NUM_ROUNDS):
+    #     # 奇数行と偶数行を分けます
+    #     odd_rows = df[df.index % 2 == 0]
+    #     even_rows = df[df.index % 2 == 1]
 
-        # 奇数行のカラム名を変更します
-        odd_rows.columns = [f'{col}_p1' for col in odd_rows.columns]
+    #     # 奇数行のカラム名を変更します
+    #     odd_rows.columns = [f'{col}_p1' for col in odd_rows.columns]
 
-        # 偶数行のカラム名を変更します
-        even_rows.columns = [f'{col}_p2' for col in even_rows.columns]
+    #     # 偶数行のカラム名を変更します
+    #     even_rows.columns = [f'{col}_p2' for col in even_rows.columns]
 
-        # 奇数行と偶数行を水平に結合します
-        result = pd.concat([odd_rows.reset_index(drop=True), even_rows.reset_index(drop=True)], axis=1)
+    #     # 奇数行と偶数行を水平に結合します
+    #     result = pd.concat([odd_rows.reset_index(drop=True), even_rows.reset_index(drop=True)], axis=1)
 
-        # カラムの順番を入れ替えたい順番に指定
-        new_column_order = [
-            'session_p1',
-            'session_p2',
-            'round_p1',
-            'round_p2',
-            'player_p1',
-            'player_p2',
-            'cooperate_p1',
-            'cooperate_p2',
-            'payoff_p1',
-            'payoff_p2',
-            'start_time_p1',
-            'start_time_p2',
-            'choice_time_p1',
-            'choice_time_p2',
-            'time_out_choice_p1',
-            'time_out_choice_p2',
-        ]
+    #     # カラムの順番を入れ替えたい順番に指定
+    #     new_column_order = [
+    #         'session_p1',
+    #         'session_p2',
+    #         'round_p1',
+    #         'round_p2',
+    #         'player_p1',
+    #         'player_p2',
+    #         'cooperate_p1',
+    #         'cooperate_p2',
+    #         'payoff_p1',
+    #         'payoff_p2',
+    #         'start_time_p1',
+    #         'start_time_p2',
+    #         'choice_time_p1',
+    #         'choice_time_p2',
+    #         'time_out_choice_p1',
+    #         'time_out_choice_p2',
+    #     ]
 
-        # カラムの順番を変更、不要なカラムを削除
-        result = result[new_column_order]
+    #     # カラムの順番を変更、不要なカラムを削除
+    #     result = result[new_column_order]
 
-        # 結果をCSVファイルとして保存します
-        os.makedirs("output/prisoner_result", exist_ok=True)
-        result.to_csv(f'output/prisoner_result/prisoner_result_{filename_number}.csv', encoding='utf-8-sig', index=False)
+    #     # 結果をCSVファイルとして保存します
+    #     os.makedirs("output/prisoner_result", exist_ok=True)
+    #     result.to_csv(f'output/prisoner_result/prisoner_result_{filename_number}.csv', encoding='utf-8-sig', index=False)
 
 
 # PAGES
