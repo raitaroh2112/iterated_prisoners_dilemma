@@ -1,0 +1,11 @@
+/* styles.css */
+
+/* タイマーを中央揃えにするためのスタイル */
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* 親要素の高さいっぱいにタイマーを表示 */
+    font-size: 48px; /* タイマーのフォントサイズを調整 */
+  }
+  

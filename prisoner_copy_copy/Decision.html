@@ -1,0 +1,113 @@
+{{ block title }}<center>行動を選択してください</center>{{ endblock }}
+{{ block content }}
+{% if round_number <= 2%}
+<p><center><b><font color="red">練習モード</font></b></center></p>
+{% endif %}
+<div class="form-group required">
+    
+    <center><p><b>Option IまたはOption Jを選択してください。</b></p>
+    <p><b>ブラウザバックは使用しないでください。</b></p>
+    <p>現在の得点↓</p>
+    <p>あなたの得点:{{point_player}}　相手の得点:{{point_other}}</p></center>
+    <table id="my-table" class="table table-bordered text-center" style="display: none;">
+        <tr>
+            <th colspan="2" rowspan="2"></th>
+            <th colspan="2">相手</th>
+        </tr>
+        <tr>
+            <th>Option I</th>
+            <th>Option J</th>
+        </tr>
+        <tr>
+            <th rowspan="2"><span>あなた</span></th>
+            <td><button name="cooperate" value="True" class="hidden">Option I</button></td>
+            <td>({{C.PAYOFF_B}}, {{C.PAYOFF_B}})</td>
+            <td>({{ C.PAYOFF_D }}, {{C.PAYOFF_A}})</td>
+        </tr>
+        <tr>
+            <td><button name="cooperate" value="False" class="hidden">Option J</button></td>
+            <td>({{C.PAYOFF_A}}, {{ C.PAYOFF_D }})</td>
+            <td>({{C.PAYOFF_C}}, {{C.PAYOFF_C}})</td>
+        </tr>
+    </table>
+    <div id="message"></div>
+</div>
+<style>
+    .otree-timer {
+        font-size: 20px;
+        text-align: center;
+    }
+    /* Center-align the message text */
+    .centered-text {
+        text-align: center;
+    }
+
+    /* Define styles for different options */
+    #message.option-i {
+        color: green; /* Change color for Option I */
+    }
+
+    #message.option-j {
+        color: green; /* Change color for Option J */
+    }
+</style>
+
+<script type="text/javascript">
+    // ボタンがクリックされたときの処理
+    document.querySelectorAll('button[name="cooperate"]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var selectedOption = button.value;
+            var messageElement = document.getElementById('message');
+            
+            // ユーザーが選択したオプションに応じたメッセージを表示
+            if (selectedOption === 'True') {
+                messageElement.className = 'option-i';
+                messageElement.innerHTML = '<div class="centered-text">Option I が選択されました。しばらくお待ちください。</div>';
+        
+            } else {
+                messageElement.className = 'option-j';
+                messageElement.innerHTML = '<div class="centered-text">Option J が選択されました。しばらくお待ちください。</div>';
+        
+            }
+     
+            // メッセージを表示したら、ページ遷移せずに一定の時間後にメッセージを消す
+            setTimeout(function() {
+                messageElement.textContent = ''; // メッセージをクリア
+            }, 20000); // 20秒後にメッセージを消す（10000ミリ秒 = 10秒）
+
+            // 表を非表示にする
+            var table = document.getElementById("my-table");
+            table.style.display = "none";
+        });
+    });
+    
+    timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
+
+    function clock() {
+        document.getElementById("view_clock").innerHTML = getNow();
+    }
+
+    function getNow() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var mon = now.getMonth() + 1; //１を足すこと
+        var day = now.getDate();
+        var hour = now.getHours();
+        var min = now.getMinutes();
+        var sec = now.getSeconds();
+
+        //出力用
+        var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
+        return s;
+    }
+
+    // 5秒後に表を表示する処理
+    setTimeout(function () {
+        var table = document.getElementById("my-table");
+        table.style.display = "table";
+    }, 1000); // 1秒後に実行するためのタイマー
+
+
+</script>
+
+{{ endblock }}

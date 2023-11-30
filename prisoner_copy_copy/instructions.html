@@ -1,0 +1,48 @@
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+        <h3>
+            <center>ゲームのやり方</center>
+        </h3>
+
+        <p>
+            <center>Option IもしくはOption Jの選択をしていただきます。</center>
+        </p>
+
+        <p>
+            <center>制限時間20秒以内に、Option IもしくはOption Jのボタンをクリックしてください。</center>
+        </p>
+        <p>
+            <center>制限時間内に操作が終わらない場合は、</center>
+        </p>
+        <p>
+            <center><b>無効試合になります。+0ポイント</b></center>
+        </p>
+        <p>
+            <center>各セルの左の金額はあなたの報酬で、右の金額は他の参加者の報酬です</center>
+        </p>
+
+        <table class='table table-bordered text-center' style='width: auto; margin: auto'>
+            <tr>
+                <th colspan=2 rowspan=2></th>
+                <th colspan=2>相手</th>
+            </tr>
+            <tr>
+                <th>Option I</th>
+                <th>Option J</th>
+            </tr>
+            <tr>
+                <th rowspan=2><span style="transform: rotate(-90deg);">あなた</span></th>
+                <th>Option I</th>
+                <td>{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}</td>
+                <td>{{ C.PAYOFF_D }}, {{ C.PAYOFF_A }}</td>
+            </tr>
+            <tr>
+                <th>Option J</th>
+                <td>{{ C.PAYOFF_A }}, {{C.PAYOFF_D}}</td>
+                <td>{{ C.PAYOFF_C }}, {{ C.PAYOFF_C }}</td>
+            </tr>
+        </table>
+
+    </div>
+</div>
