@@ -2,7 +2,6 @@ from otree.api import *
 import pandas as pd
 import datetime as dt
 import time
-from pathlib import Path
 import os
 current_datetime = dt.datetime.now()
 formatted_datetime = current_datetime.strftime("%Y_%m%d_%H%M%S")
@@ -12,6 +11,15 @@ while True:
     if subject_id.isdigit() and len(subject_id) == 8:
         # 入力が半角4桁の整数だった場合
         filename_number = str(subject_id)
+        break
+    else:
+        print("無効な入力です。半角8桁の整数を入力してください。")
+
+while True:
+    ROUND_NUM = input("ラウンド数+2を入力してください")
+    if ROUND_NUM.isdigit():
+        # 入力が半角4桁の整数だった場合
+        ROUND_NUM = int(ROUND_NUM)
         break
     else:
         print("無効な入力です。半角8桁の整数を入力してください。")
@@ -35,7 +43,7 @@ payoffs.
 class C(BaseConstants):
     NAME_IN_URL = 'prisoner_copy_copy_prc'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 22 # ラウンド数
+    NUM_ROUNDS = ROUND_NUM
     ENDOWMENT = cu(100)  # 初期保有
     #利得は以下を満たすようにしてください。
     #PAYOFF_A>B>C>D 2A>B+C
@@ -46,18 +54,8 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    def creating_session(self):
-        if self.round_number == 1:
-            self.group_randomly()
-            for g in self.get_groups():
-                for p in g.get_players():
-                    if p.id_in_group % 2 == 0:
-                        p.participant.vars['type'] = 'BLUE'
-                    else:
-                        p.participant.vars['type'] = 'GREEN'
-                    p.type = p.participant.vars['type']
-        else:
-            self.group_like_round(1)
+    pass
+
 
 
 class Group(BaseGroup):  # 記録したいものを書く
@@ -69,7 +67,6 @@ class Player(BasePlayer):
     timeout_happened = models.BooleanField(initial =False)
     choice_timestamp = models.FloatField()
     start_timestamp = models.FloatField()
-    end_timestamp = models.FloatField()
     time_out_choice = models.BooleanField()
     add_point = models.IntegerField() 
     cooperate = models.BooleanField(
