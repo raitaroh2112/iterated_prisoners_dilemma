@@ -8,7 +8,7 @@ now = datetime.datetime.now()
 filename_number = now.strftime("prisoner_result_%Y-%m-%d_%H-%M-%S")
 
 df = pd.DataFrame(columns=['session', 'player',
-                  'round', 'cooperate', 'payoff', 'start_time', 'choice_time', 'time_out_choice'])
+                  'round', 'cooperate', 'payoff', 'start_time', 'choice_time'])
 
 
 doc = """
@@ -48,7 +48,6 @@ class Player(BasePlayer):
     timeout_happened = models.BooleanField(initial=False)
     choice_timestamp = models.FloatField()
     start_timestamp = models.FloatField()
-    time_out_choice = models.BooleanField()
     add_point = models.IntegerField()
     cooperate = models.BooleanField(
         choices=[[True, 'Option I'], [False, 'Option J']],
@@ -92,51 +91,17 @@ def set_payoff(player: Player):
     score_matrix = payoff_matrix[(
         player.cooperate, other.cooperate)]  # スコア２人分の配列
 
-    if player.time_out_choice and other.time_out_choice:
-        if player.round_number == 1 or player.round_number == 3:
-            player.payoff = C.ENDOWMENT  # 自分の配列
-            player.add_point = 0
-            other.payoff = C.ENDOWMENT  # 相手の配列
-            other.add_point = 0
-        else:
-            player.payoff = prev_player(player).payoff
-            player.add_point = 0
-            other.payoff = prev_player(other).payoff
-            other.add_point = 0
 
-    elif player.time_out_choice:
-        if player.round_number == 1 or player.round_number == 3:
-            player.payoff = C.ENDOWMENT  # 自分の配列
-            player.add_point = 0
-            other.payoff = C.ENDOWMENT  # 相手の配列
-            other.add_point = 0
-        else:
-            player.payoff = prev_player(player).payoff
-            player.add_point = 0
-            other.payoff = prev_player(other).payoff
-            other.add_point = 0
-    elif other.time_out_choice:
-        if player.round_number == 1 or player.round_number == 3:
-            player.payoff = C.ENDOWMENT  # 自分の配列
-            player.add_point = 0
-            other.payoff = C.ENDOWMENT  # 相手の配列
-            other.add_point = 0
-        else:
-            player.payoff = prev_player(player).payoff
-            player.add_point = 0
-            other.payoff = prev_player(other).payoff
-            other.add_point = 0
+    if player.round_number == 1 or player.round_number == 3:
+        player.payoff = C.ENDOWMENT+score_matrix[0]  # 自分の配列
+        player.add_point = score_matrix[0]
+        other.payoff = C.ENDOWMENT+score_matrix[1]  # 相手の配列
+        other.add_point = score_matrix[1]
     else:
-        if player.round_number == 1 or player.round_number == 3:
-            player.payoff = C.ENDOWMENT+score_matrix[0]  # 自分の配列
-            player.add_point = score_matrix[0]
-            other.payoff = C.ENDOWMENT+score_matrix[1]  # 相手の配列
-            other.add_point = score_matrix[1]
-        else:
-            player.payoff = prev_player(player).payoff+score_matrix[0]  # 自分の配列
-            player.add_point = score_matrix[0]
-            other.payoff = prev_player(other).payoff+score_matrix[1]  # 相手の配列
-            other.add_point = score_matrix[1]
+        player.payoff = prev_player(player).payoff+score_matrix[0]  # 自分の配列
+        player.add_point = score_matrix[0]
+        other.payoff = prev_player(other).payoff+score_matrix[1]  # 相手の配列
+        other.add_point = score_matrix[1]
 
     # df.loc[len(df)] = [player.session.code, player.id_in_subsession,
     #                    player.round_number, player.cooperate, player.payoff, player.start_timestamp, player.choice_timestamp, player.time_out_choice]
@@ -213,13 +178,19 @@ class Introduction(Page):
             point_other=point_other,
 
         )
+    def before_next_page(player: Player, timeout_happened):
+        player.start_timestamp = time.time()
+
+
+class Wait_Page_Decision(WaitPage):
+    @staticmethod
 
     def before_next_page(player: Player, timeout_happened):
         player.start_timestamp = time.time()
 
 
 class Decision(Page):
-    timeout_seconds = 20
+    # timeout_seconds = 20
     timer_text = "制限時間内に選択してください"
     form_model = 'player'
     form_fields = ['cooperate']
@@ -240,23 +211,22 @@ class Decision(Page):
         )
 
     def before_next_page(player: Player, timeout_happened):
+        player.choice_timestamp = time.time()
         other = other_player(player)
-        if not timeout_happened:
-            player.time_out_choice = False
-        else:
-            player.time_out_choice = True
 
         # Calculate the remaining time in seconds
-        remaining_time = Decision.timeout_seconds - (time.time() - player.start_timestamp)
+        remaining_time = 20 - int(time.time() - player.start_timestamp)
 
         if remaining_time > 0:
             # Sleep for the remaining time
             time.sleep(remaining_time)
-        player.choice_timestamp = time.time()
+        
 
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
+    
+        
 
 
 class Results(Page):
@@ -280,8 +250,6 @@ class Results(Page):
             opponent=other,
             player_addpoint=player.add_point,
             other_addpoint=other.add_point,
-            playertime_out_choice=player.time_out_choice,
-            othertime_out_choice=other.time_out_choice,
             round_number=player.round_number,
             same_choice=player.cooperate == other.cooperate,
             my_decision=player.field_display('cooperate'),
@@ -293,4 +261,4 @@ class Results(Page):
             pass
 
 
-page_sequence = [Wait_Page, Introduction, Decision, ResultsWaitPage, Results]
+page_sequence = [Wait_Page, Introduction, Wait_Page_Decision,Decision,  ResultsWaitPage, Results]

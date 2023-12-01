@@ -1,10 +1,12 @@
 {{ block title }}<center>行動を選択してください</center>{{ endblock }}
 {{ block content }}
+<div id="timer_alt" class="center"></div>
 {% if round_number <= 2%}
 <p><center><b><font color="red">練習モード</font></b></center></p>
 {% endif %}
+
+
 <div class="form-group required">
-    
     <center><p><b>Option IまたはOption Jを選択してください。</b></p>
     <p><b>ブラウザバックは使用しないでください。</b></p>
     <p>現在の得点↓</p>
@@ -36,9 +38,20 @@
     .otree-timer {
         font-size: 20px;
         text-align: center;
+   
     }
     /* Center-align the message text */
     .centered-text {
+        text-align: center;
+    }
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .timer {
+        font-size: 20px;
         text-align: center;
     }
 
@@ -49,6 +62,12 @@
 
     #message.option-j {
         color: green; /* Change color for Option J */
+    }
+    #timer_alt {
+        background-color: #FFE4B5; /* 背景色を黄色に設定 */
+        padding: 20px; /* 上下左右に10pxの余白を追加 */
+   
+        /* その他のスタイルを追加することもできます */
     }
 </style>
 
@@ -83,29 +102,35 @@
     
     timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
 
-    function clock() {
-        document.getElementById("view_clock").innerHTML = getNow();
+// 5秒後に表を表示する処理
+setTimeout(function () {
+    var table = document.getElementById("my-table");
+    table.style.display = "table";
+}, 1000); // 1秒後に実行するためのタイマー    
+    // カウントダウンする秒数
+    var countdownSeconds = 20; // 20秒
+
+    // タイマーの要素を取得
+    var timerElement = document.getElementById('timer_alt');
+
+    // カウントダウン関数
+    function startTimer() {
+        var interval = setInterval(function() {
+            countdownSeconds--;
+            timerElement.innerHTML = '残り時間: ' + countdownSeconds + ' 秒 ';
+
+            if (countdownSeconds <= 0) {
+                clearInterval(interval);
+                timerElement.innerHTML = ' 制限時間を超過しました。選択してください。 ';
+                // ここに時間切れ時の処理を追加することができます
+            }
+        }, 1000); // 1秒ごとに更新
     }
 
-    function getNow() {
-        var now = new Date();
-        var year = now.getFullYear();
-        var mon = now.getMonth() + 1; //１を足すこと
-        var day = now.getDate();
-        var hour = now.getHours();
-        var min = now.getMinutes();
-        var sec = now.getSeconds();
+// タイマーを開始する
+startTimer();
 
-        //出力用
-        var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-        return s;
-    }
-
-    // 5秒後に表を表示する処理
-    setTimeout(function () {
-        var table = document.getElementById("my-table");
-        table.style.display = "table";
-    }, 1000); // 1秒後に実行するためのタイマー
+    
 
 
 </script>
