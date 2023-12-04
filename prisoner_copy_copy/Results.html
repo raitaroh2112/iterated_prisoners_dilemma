@@ -1,6 +1,8 @@
 {{ block title }}<center>ゲームの結果</center>{{ endblock }}
 {{ block content }}
-
+{% if not_entered_message %}
+        <p><center><b><font color="red">{{ not_entered_message }}</font></b></center></p>
+{% endif %}
 {% if round_number == NUM_ROUNDS%}
 <p><center><b><font color="red">実験はこれで終了です。アンケートにご協力ください。</font></b></center></p>
 {% load static%} 
