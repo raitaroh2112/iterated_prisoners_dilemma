@@ -25,7 +25,7 @@ payoffs.
 class C(BaseConstants):
     NAME_IN_URL = 'prisoner_copy_copy_prc'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 22
     ENDOWMENT = cu(100)  # 初期保有
     # 利得は以下を満たすようにしてください。
     # PAYOFF_A>B>C>D 2A>B+C
