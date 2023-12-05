@@ -22,9 +22,9 @@ SESSION_CONFIGS = [
     #     num_demo_participants=2,
     # ),
     dict(
-        name='prisoner_copy_copy',
-        display_name="prisoner_copy_copy",
-        app_sequence=['prisoner_copy_copy'],
+        name='iterated_prisoner',
+        display_name="iterated_prisoner",
+        app_sequence=['iterated_prisoner'],
         num_demo_participants=2,
     ),
     # dict(
@@ -74,7 +74,7 @@ Here are some oTree games.
 """
 
 
-SECRET_KEY = '2069176273006'
+SECRET_KEY = 'SECRET_KEY'
 
 INSTALLED_APPS = ['otree']
 

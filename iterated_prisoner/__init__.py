@@ -23,7 +23,7 @@ payoffs.
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'prisoner_copy_copy_prc'
+    NAME_IN_URL = 'iterated_prisoner'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 22
     ENDOWMENT = cu(100)  # 初期保有
