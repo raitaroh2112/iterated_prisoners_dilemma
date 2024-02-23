@@ -1,0 +1,141 @@
+{{ block title }}
+    <center>行動を選択してください</center>
+{{ endblock }}
+
+{{ block content }}
+    {% if round_number <= 2 %}
+        <p><center><b><font color="red">練習モード</font></b></center></p>
+    {% endif %}
+
+    <div class="form-group required">
+        <form>
+            <center>
+                <p><b>Option IまたはOption Jを選択してください。</b></p>
+                <p><b>ブラウザバックは使用しないでください。</b></p>
+                <p>現在の得点↓</p>
+                <p>あなたの得点:{{point_player}}　相手の得点:{{point_other}}</p>
+            </center>
+
+            <table id="my-table" class="table table-bordered text-center">
+                <tr>
+                    <th colspan="2" rowspan="2"></th>
+                    <th colspan="2">相手</th>
+                </tr>
+                <tr>
+                    <th>Option I</th>
+                    <th>Option J</th>
+                </tr>
+                <tr>
+                    <th rowspan="2"><span>あなた</span></th>
+                    <td>
+                        <input type="radio" id="option_i" name="cooperate" value="1">
+                        <label for="option_i">Option Iを選択</label>
+                    </td>
+                    <td>({{C.PAYOFF_B}}, {{C.PAYOFF_B}})</td>
+                    <td>({{ C.PAYOFF_D }}, {{C.PAYOFF_A}})</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" id="option_j" name="cooperate" value="2">
+                        <label for="option_j">Option Jを選択</label>
+                    </td>
+                    <td>({{C.PAYOFF_A}}, {{ C.PAYOFF_D }})</td>
+                    <td>({{C.PAYOFF_C}}, {{C.PAYOFF_C}})</td>
+                </tr>
+            </table>
+
+            <div id="message"></div>
+        </form>
+    </div>
+
+    <style>
+        .otree-timer {
+            font-size: 20px;
+            text-align: center;
+            background-color: #FFE4B5; /* 背景色を黄色に設定 */
+            padding: 14px; /* 上下左右に10pxの余白を追加 */
+        }
+        /* Center-align the message text */
+        .centered-text {
+            text-align: center;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .timer {
+            font-size: 20px;
+            text-align: center;
+        }
+    
+        /* Define styles for different options */
+        #message.option-i {
+            color: green; /* Change color for Option I */
+        }
+    
+        #message.option-j {
+            color: green; /* Change color for Option J */
+        }
+        #timer_alt {
+            background-color: #FFE4B5; /* 背景色を黄色に設定 */
+            padding: 20px; /* 上下左右に10pxの余白を追加 */
+       
+            /* その他のスタイルを追加することもできます */
+        }
+    </style>
+
+    <script type="text/javascript">
+         // ボタンがクリックされたときの処理
+        document.querySelectorAll('input[name="cooperate"]').forEach(function(radio) {
+            radio.addEventListener('click', function() {
+                var selectedOption = this.value;
+                var messageElement = document.getElementById('message');
+                
+                // ユーザーが選択したオプションに応じたメッセージを表示
+                if (selectedOption === '1') {
+                    messageElement.className = 'option-i';
+                    messageElement.innerHTML = '<div class="centered-text">Option I が選択されました。しばらくお待ちください。</div>';
+            
+                } else if (selectedOption === '2'){
+                    messageElement.className = 'option-j';
+                    messageElement.innerHTML = '<div class="centered-text">Option J が選択されました。しばらくお待ちください。</div>';
+            
+                }
+         
+                // 表を非表示にする
+                var table = document.getElementById("my-table");
+                table.style.display = "none";
+         
+                // メッセージを表示したら、ページ遷移せずに一定の時間後にメッセージを消す
+                setTimeout(function() {
+                    messageElement.textContent = ''; // メッセージをクリア
+                }, 20000); // 20秒後にメッセージを消す（10000ミリ秒 = 10秒）
+            });
+        });
+
+        // カウントダウンする秒数
+        var countdownSeconds = 20; // 20秒
+
+        // タイマーの要素を取得
+        var timerElement = document.getElementById('timer_alt');
+
+        // カウントダウン関数
+        function startTimer() {
+            var interval = setInterval(function() {
+                countdownSeconds--;
+                timerElement.innerHTML = '残り時間: ' + countdownSeconds + ' 秒 ';
+
+                if (countdownSeconds <= 0) {
+                    clearInterval(interval);
+                    timerElement.innerHTML = ' 制限時間を超過しました。選択してください。 ';
+                    // ここに時間切れ時の処理を追加することができます
+                }
+            }, 1000); // 1秒ごとに更新
+        }
+
+        // タイマーを開始する
+        startTimer();
+    </script>
+{{ endblock }}
