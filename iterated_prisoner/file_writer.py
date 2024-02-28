@@ -28,10 +28,10 @@ def write_to_csv(df, filename_number):
         'cooperate_p2',
         'payoff_p1',
         'payoff_p2',
-        'start_time_p1',
-        'start_time_p2',
-        'choice_time_p1',
-        'choice_time_p2',
+        'start_choice_time_p1',
+        'start_choice_time_p2',
+        'end_choice_time_p1',
+        'end_choice_time_p2',
     ]
 
     result = result[new_column_order]
@@ -44,6 +44,6 @@ def write_to_csv(df, filename_number):
 
 if __name__ == "__main__":
     # テスト用のデータフレームを作成
-    df = pd.DataFrame(columns=['session', 'player', 'round', 'cooperate', 'payoff', 'start_time', 'choice_time'])
+    df = pd.DataFrame(columns=['session', 'player', 'round', 'cooperate', 'payoff', 'start_choice_time', 'end_choice_time'])
 
     write_to_csv(df, 1)

@@ -12,16 +12,14 @@ doc = """
 now = datetime.datetime.now()
 filename_number = now.strftime("prisoner_result_%Y-%m-%d_%H-%M-%S")
 
-df = pd.DataFrame(columns=['session', 'player',
-                  'round', 'cooperate', 'payoff', 'start_time', 'choice_time', 'time_out_choice'])
+df = pd.DataFrame(columns=['session', 'player', 'round', 'cooperate', 'payoff', 'start_choice_time', 'end_choice_time', 'time_out_choice'])
 
 
-class C(BaseConstants): # 定数の設定
+class C(BaseConstants): # 定数の設定(パラメータはお好みで)
     NAME_IN_URL = 'iterated_prisoner'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
     ENDOWMENT = cu(100)  # 初期保有
-    # 利得は以下を満たすようにしてください。
     # PAYOFF_A>B>C>D 2A>B+C
     PAYOFF_A = 5  # 利得(D,C)
     PAYOFF_B = 3  # 利得(C,C)
@@ -132,7 +130,6 @@ def set_payoff(player: Player):
     if (player.round_number == C.NUM_ROUNDS):
         # ファイルに書き込み
         # 結果をCSVファイルとして保存します
-        os.makedirs("output/prisoner_result", exist_ok=True)
         write_to_csv(df, filename_number)
 
 
