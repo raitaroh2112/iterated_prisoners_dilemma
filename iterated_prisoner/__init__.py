@@ -4,6 +4,7 @@ import datetime
 import time
 import os
 from .file_writer import write_to_csv
+from .config import *
 
 doc = """
 2人対戦の繰り返し囚人のジレンマゲームです。
@@ -16,15 +17,15 @@ df = pd.DataFrame(columns=['session', 'player', 'round', 'cooperate', 'payoff', 
 
 
 class C(BaseConstants): # 定数の設定(パラメータはお好みで)
-    NAME_IN_URL = 'iterated_prisoner'
+    NAME_IN_URL = NAME
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 1
-    ENDOWMENT = cu(100)  # 初期保有
+    NUM_ROUNDS = TOTAL_ROUNDS
+    ENDOWMENT = cu(ENDOWMENTS_NUM)  # 初期保有
     # PAYOFF_A>B>C>D 2A>B+C
-    PAYOFF_A = 5  # 利得(D,C)
-    PAYOFF_B = 3  # 利得(C,C)
-    PAYOFF_C = 0  # 利得(D,D)
-    PAYOFF_D = -1  # 利得(C,D)
+    PAYOFF_A = PAYOFF_T
+    PAYOFF_B = PAYOFF_R
+    PAYOFF_C = PAYOFF_P
+    PAYOFF_D = PAYOFF_S
 
 
 class Subsession(BaseSubsession):
