@@ -43,7 +43,7 @@ otree prodserver 8000
 
 同一ネットワーク内であれば、他のPCからもアクセス可能です。（localhostをホストのIPアドレスに変更してください）
 
-3.　`__init__.py`でパラメータを設定してください。
+3.　`config.py`でパラメータを設定してください。
 
 4.　ゲームではOption I （C）かOption J (D)のどちらかをクリックしてください。一度押したら、そのラウンドでは選び直しができない設定になっています。
 
@@ -72,11 +72,12 @@ otree prodserver 8000
 - `iterated_prisoner/`: ゲームのファイルを含むディレクトリ
   - `__init__.py`: ゲームを動かすためのプログラム
   - `file_write.py`: ゲームの結果をcsv形式で出力するためのプログラム
+  - `config.py`:　ゲーム設定を書き込むファイル
+  - `setting.py`:　oTree用の設定のファイル
   - 　`instruction.html`: ゲームの指示を書くためのhtmlファイル
   - 　`Introduction.html`: 最初のページのためのhtmlファイル
   - 　`Decision.html`: ゲームの選択を考えるページのhtmlファイル
   - 　`Result.html`: ゲームの結果を表示するページのhtmlファイル
-  - 　`Wait_Result.html`: 相手とのタイミングをとるための待機ページのhtmlファイル
 
 - `output/`: 出力ファイルを格納するディレクトリ
 
