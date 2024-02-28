@@ -79,7 +79,7 @@ def prev_player(player: Player):
 
 
 def display_score(player: Player):
-    if player.round_number == 1 or player.round_number == 3:
+    if player.round_number == 1:
         return C.ENDOWMENT
     else:
         return prev_player(player).payoff
@@ -91,7 +91,7 @@ def set_payoff(player: Player):
         player.cooperate = 0 # 未入力の場合は、前の点数に+0として設定する
 
         # 前の点数に+0として設定する
-        if player.round_number == 1 or player.round_number == 3:
+        if player.round_number == 1:
             player.payoff = C.ENDOWMENT
             player.add_point = 0
             other = other_player(player)
@@ -114,7 +114,7 @@ def set_payoff(player: Player):
         score_matrix = payoff_matrix[(
             player.cooperate, other.cooperate)]  # スコア２人分の配列
 
-        if player.round_number == 1 or player.round_number == 3:
+        if player.round_number == 1:
             player.payoff = C.ENDOWMENT+score_matrix[0]  
             player.add_point = score_matrix[0]
             other.payoff = C.ENDOWMENT+score_matrix[1]  

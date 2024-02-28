@@ -6,9 +6,6 @@
 {% if round_number == NUM_ROUNDS%}
 <p><center><b><font color="red">ゲームはこれで終了です。</font></b></center></p>
 {% endif %}
-{% if round_number <= 2%}
-<p><center><b><font color="red">練習モード</font></b></center></p>
-{% endif %}
 {% if round_number == 2%}
 <p><center><b><font color="red">次のゲームから本番になります。得点はリセットされます。</font></b></center></p>
 {% endif %}
@@ -48,8 +45,6 @@
 </style>
 <script type="text/javascript">
   
-  timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
-
   // ページの読み込みが完了した時点から5秒後にメッセージを表示する処理
   setTimeout(function () {
     var messageContainer = document.getElementById("message-container");

@@ -1,8 +1,5 @@
 {{ block title }}<center>実験指示</center>{{ endblock }}
 {{ block content }}
-{% if round_number <= 2%}
-<p><center><b><font color="red">練習モード</font></b></center></p>
-{% endif %}
 {{ include_sibling 'instructions.html' }}
 
 
