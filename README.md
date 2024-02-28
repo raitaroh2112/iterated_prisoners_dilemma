@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 ## 使用方法（ローカル）
 
-1. ディレクトリに入り以下コマンドを打ちます。
+1. `iterated_prisoners_dilemma`のディレクトリに入り以下コマンドを打ちます。
 ```bash
 otree prodserver 8000
 ```
