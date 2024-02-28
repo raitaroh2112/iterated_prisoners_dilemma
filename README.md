@@ -64,5 +64,10 @@ otree prodserver 8000
 
 - `output/`: 出力ファイルを格納するディレクトリ
 
+## 参照先
 
+Chen, Daniel L., Martin Schonger, and Chris Wickens.
+2016. "oTree - An open-source platform for laboratory, online, and field experiments."
+Journal of Behavioral and Experimental Finance, vol 9: 88-97.
+　
 
