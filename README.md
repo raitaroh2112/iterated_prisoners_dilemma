@@ -41,7 +41,23 @@ otree prodserver 8000
 
 - [http://localhost:8000/](http://localhost:8000/)
 
-同一ネットワーク内であれば、他のPCからもアクセス可能です。
+同一ネットワーク内であれば、他のPCからもアクセス可能です。（localhostをホストのIPアドレスに変更してください）
+
+3.　`__init__.py`でパラメータを設定してください。
+
+4.　ゲームではOption I （C）かOption J (D)のどちらかをクリックしてください。一度押したら、そのラウンドでは選び直しができない設定になっています。
+
+5.　csvファイルの内容は以下です。
+| カラム名 | 内容 |
+| ---- | ---- |
+| `session` | プレイヤーが所属していたセッション |
+| `player` | セッション内での個人を識別する（1か2） |
+| `round` | 何回目のゲームか |
+| `cooperate` | 0:未入力　1:Option I 2:Option J |
+| `payoff` | 得点 |
+| `start_choice_time` | Decisionページの開始時間 |
+| `end_choice_time` | Decisionページの終了時間 |
+
 
 ## 主要な機能
 - 2人繰り返し囚人のジレンマゲームの実施
@@ -63,6 +79,7 @@ otree prodserver 8000
   - 　`Wait_Result.html`: 相手とのタイミングをとるための待機ページのhtmlファイル
 
 - `output/`: 出力ファイルを格納するディレクトリ
+
 
 ## 参照先
 
