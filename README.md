@@ -48,27 +48,21 @@ otree prodserver 8000
 - 結果をcsv形式で出力
 
 ## ディレクトリ構造
-- `main/`: 主要なスクリプトを含むディレクトリ
-  - `gen_desire.py`: gptを使用し環境から欲求を生成するスクリプト
-  - `gen_goal.py`: gptを使用し目標を生成するスクリプト
-  - `generate.py`: OpenAI APIを使用してテキストを生成するスクリプト()
-  - `desire.py`: 環境を入力として欲求を出力するスクリプト
-  - `select_goal.py`: 欲求から目標を選択するスクリプト
-  - `utilis.py`: ユーティリティ関数を含むスクリプト
-  - `view.py`: 欲求変化のグラフや目的選択の出力をweb UIで表示するスクリプト
-  - `main.py`: 環境を入力して欲求が変化し目的を出力するスクリプト．グラフも出力する
+- `_rooms/`: テンプレートディレクトリ
+- `_static/`: テンプレートディレクトリ
+- `_templates/`: テンプレートディレクトリ
+
   
-- `data/`: データファイルを含むディレクトリ
-  - `desire_change_scores_v2.csv`: 環境によって変化する欲求変化のスコアcsvファイル
-  - `desire_shihyou_v2.json`: ５段階欲求とその指標のjsonファイル
+- `iterated_prisoner/`: ゲームのファイルを含むディレクトリ
+  - `__init__.py`: ゲームを動かすためのプログラム
+  - `file_write.py`: ゲームの結果をcsv形式で出力するためのプログラム
+  - 　`instruction.html`: ゲームの指示を書くためのhtmlファイル
+  - 　`Introduction.html`: 最初のページのためのhtmlファイル
+  - 　`Decision.html`: ゲームの選択を考えるページのhtmlファイル
+  - 　`Result.html`: ゲームの結果を表示するページのhtmlファイル
+  - 　`Wait_Result.html`: 相手とのタイミングをとるための待機ページのhtmlファイル
 
-- `tests/`: 最初に遊んでいたテストファイルを含むディレクトリ
 - `output/`: 出力ファイルを格納するディレクトリ
-    - `goal_counts.json`: 欲求と場所と対応している目的のjsonファイル
-    - `embedded_status_name.csv`: 環境のステータスを埋め込んだcsvファイル（未知の環境名でもベクトル化したものを保存するファイル）
-    - `embedded_desire_change_scores.csv`: 環境のステータスを埋め込んだ欲求変化のスコアcsvファイル(スコアを生成した環境名のみのベクトルを保存するファイル)
 
-- `exp/`: 実験結果のグラフとデータを含むディレクトリ
-- `prompt/`: OpenAI APIを使用するためのプロンプトを含むディレクトリ
 
 
