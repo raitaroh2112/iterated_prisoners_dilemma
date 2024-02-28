@@ -84,17 +84,10 @@ otree prodserver 8000
 
 ## 画面の様子
 
-<img width="379" alt="instruction" src="https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/8b08363f-480b-41c6-9530-650d1fb794d2">
-
-
-<img width="410" alt="decision_1" src="https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/385c523c-d9ab-4538-8cc1-9d473093ca75">
-
-
-<img width="393" alt="decision_2" src="https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/c6556369-e0ab-4788-8c42-4eaea20e151d">
-
-
-<img width="413" alt="result" src="https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/c5b0857c-3821-45e1-8338-dd572559bdac">
-
+![実験指示](https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/8b08363f-480b-41c6-9530-650d1fb794d2)<br>
+![行動の選択1](https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/385c523c-d9ab-4538-8cc1-9d473093ca75)<br>
+![行動の選択2](https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/c6556369-e0ab-4788-8c42-4eaea20e151d)<br>
+![結果の表示](https://github.com/raitaroh2112/iterated_prisoners_dilemma/assets/124625963/c5b0857c-3821-45e1-8338-dd572559bdac)
 
 
 ## 参照先
