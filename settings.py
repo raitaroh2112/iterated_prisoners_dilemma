@@ -2,37 +2,12 @@ from os import environ
 
 
 SESSION_CONFIGS = [
-    # dict(
-    #     name='prisoner',
-    #     display_name="prisoner",
-    #     app_sequence=['prisoner'],
-    #     num_demo_participants=2,
-    # ),
-    # dict(
-    #     name='prisoner_prc',
-    #     display_name="prisoner_prc",
-    #     app_sequence=['prisoner_prc'],
-    #     num_demo_participants=2,
-    # ),
-   
-    # dict(
-    #     name='prisoner_copy',
-    #     display_name="prisoner_copy",
-    #     app_sequence=['prisoner_copy'],
-    #     num_demo_participants=2,
-    # ),
     dict(
         name='iterated_prisoner',
         display_name="iterated_prisoner",
         app_sequence=['iterated_prisoner'],
         num_demo_participants=2,
     ),
-    # dict(
-    #     name='prisoner_copy_copy_prc',
-    #     display_name="prisoner_copy_copy_prc",
-    #     app_sequence=['prisoner_copy_copy_prc'],
-    #     num_demo_participants=2,
-    # ),
     
 ]
 

@@ -4,9 +4,7 @@
         <p><center><b><font color="red">{{ not_entered_message }}</font></b></center></p>
 {% endif %}
 {% if round_number == NUM_ROUNDS%}
-<p><center><b><font color="red">実験はこれで終了です。アンケートにご協力ください。</font></b></center></p>
-{% load static%} 
-<center><a href="https://forms.gle/JS54HGAz7sK8ywT19" target="_blank" rel="noopener noreferrer">こちら</a>をクリックしてください</center>
+<p><center><b><font color="red">ゲームはこれで終了です。</font></b></center></p>
 {% endif %}
 {% if round_number <= 2%}
 <p><center><b><font color="red">練習モード</font></b></center></p>
@@ -52,24 +50,6 @@
   
   timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
 
-  function clock() {
-    document.getElementById("view_clock").innerHTML = getNow();
-  }
-
-  function getNow() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var mon = now.getMonth() + 1; //１を足すこと
-    var day = now.getDate();
-    var hour = now.getHours();
-    var min = now.getMinutes();
-    var sec = now.getSeconds();
-
-    //出力用
-    var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-    return s;
-  }
-
   // ページの読み込みが完了した時点から5秒後にメッセージを表示する処理
   setTimeout(function () {
     var messageContainer = document.getElementById("message-container");
@@ -78,8 +58,8 @@
     // メッセージを非表示にするためのタイマー
     setTimeout(function () {
       messageContainer.textContent = "";
-    }, 10000); // 5秒後にメッセージを非表示にする
-  }, 5); // 5秒後にメッセージを表示するためのタイマー
+    }, 10000);
+  }, 5); 
 </script>
 
 {{ endblock }}
