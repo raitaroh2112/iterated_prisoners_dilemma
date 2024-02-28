@@ -86,5 +86,7 @@ otree prodserver 8000
 Chen, Daniel L., Martin Schonger, and Chris Wickens.
 2016. "oTree - An open-source platform for laboratory, online, and field experiments."
 Journal of Behavioral and Experimental Finance, vol 9: 88-97.
-　
+
+- [https://otree.readthedocs.io/en/latest/](https://otree.readthedocs.io/en/latest/)
+- [https://yshimod.github.io/otree5-seminar/](https://yshimod.github.io/otree5-seminar/)
 
