@@ -16,7 +16,6 @@ def write_to_csv(df, filename_number):
 
     result = pd.concat([odd_rows.reset_index(drop=True), even_rows.reset_index(drop=True)], axis=1)
 
-    # カラムの順番を入れ替えたい順番に指定
     new_column_order = [
         'session_p1',
         'session_p2',
