@@ -1,5 +1,5 @@
 NAME = 'iterated_prisoner'
-TOTAL_ROUNDS = 1 # ゲームの繰り返し回数
+TOTAL_ROUNDS = 3 # ゲームの繰り返し回数
 ENDOWMENTS_NUM = 100 # 初期資産
 # T>R>P>S 2R>P+S
 PAYOFF_T = 5  # 利得(D,C)

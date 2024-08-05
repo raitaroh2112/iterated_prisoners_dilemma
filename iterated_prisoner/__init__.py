@@ -131,7 +131,8 @@ def set_payoff(player: Player):
     if (player.round_number == C.NUM_ROUNDS):
         # ファイルに書き込み
         # 結果をCSVファイルとして保存します
-        write_to_csv(df, filename_number)
+        # write_to_csv(df, filename_number)
+        pass
 
 
 # PAGES
