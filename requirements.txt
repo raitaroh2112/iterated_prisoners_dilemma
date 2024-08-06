@@ -1,4 +1,4 @@
-otree>=2.1.13
-psycopg2>=2.5.1
+otree>=5.4.0
+psycopg2>=2.8.4
 numpy
 pandas
